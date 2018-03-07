@@ -146,9 +146,6 @@ class Worker():
                 d = False
                 
                 s = self.env.reset()
-                if self.name == 'worker_0':
-                    self.env.render()
-
                 s = process_frame(s)
                 while not d:
                     GLOBAL_STEP += 1
@@ -177,8 +174,8 @@ class Worker():
                         # Since we don't know what the true final return is, we "bootstrap" from our current
                         # value estimation.
                         v1 = sess.run(self.local_AC.out, 
-                            feed_dict={self.local_AC.inputs:[s]})[0,0]
-                        
+                            feed_dict={self.local_AC.inputs:[s]})[0]
+                        v1 = np.max(v1)
                         l,g_n,v_n = self.train(episode_buffer,sess,gamma,lam,v1)
                         episode_buffer = []
                         sess.run(self.update_local_ops)
