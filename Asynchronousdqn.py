@@ -150,9 +150,12 @@ class Worker():
                 while not d:
                     GLOBAL_STEP += 1
                     #Take an action using probabilities from policy network output.
-                    a_dist = sess.run([self.local_AC.out], feed_dict={self.local_AC.inputs:[s]})[0]
-                    a = np.random.choice(a_dist[0],p=a_dist[0])
-                    a = np.argmax(a_dist == a)
+                    if np.random.uniform() < epsilon:
+                        a_dist = sess.run([self.local_AC.out], feed_dict={self.local_AC.inputs:[s]})[0]
+                        a = np.random.choice(a_dist[0],p=a_dist[0])
+                        a = np.argmax(a_dist == a)
+                    else:
+                        a = np.random.randint(0, 6)
 
                     s1, r, d, _ = self.env.step(a)
                     if d == False:
@@ -215,6 +218,7 @@ def get_env(task):
 max_episode_length = 1#300
 gamma = .99 # discount rate for advantage estimation and reward discounting
 lam = 0.97 # GAE discount factor
+epsilon = 0.9
 s_size = 7056 # Observations are greyscale frames of 84 * 84 * 1
 load_model = False
 model_path = './model'
