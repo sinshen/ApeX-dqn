@@ -1,4 +1,3 @@
 # apexdqn
-
-did not finish
+asynchronousdqn work, 16 actors, after several hours
 
