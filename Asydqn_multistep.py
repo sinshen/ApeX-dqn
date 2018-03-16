@@ -245,7 +245,6 @@ with tf.Session() as sess:
         ckpt = tf.train.get_checkpoint_state(model_path)
         saver.restore(sess,ckpt.model_checkpoint_path)
         
-    # This is where the asynchronous magic happens.
     # Start the "work" process for each worker in a separate threat.
     worker_threads = []
     for worker in workers:
