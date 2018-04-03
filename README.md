@@ -3,8 +3,6 @@ asynchronousdqn work, 16 actors, after several hours
 
 much slower than a3c
 
-update apex dqn, distributed prioritized experience replay, didnt test
+update apex dqn, can't work well, I have no idea how to make replay memory
 
-asynchronousdqn is almost like a3c, asydqn_rm added replay memory, multi-step will be even faster than a3c
-
-apexdqn will perform better as the number of actors increse
+asynchronousdqn is almost like a3c, asydqn_rm added replay memory, with n-step return will be even faster than a3c
