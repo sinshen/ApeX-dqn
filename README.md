@@ -1,8 +1,9 @@
 # apexdqn
-asynchronousdqn work, 16 actors, after several hours
 
-much slower than a3c
+### what deepmind said is right, prioritization is the most important ingredient contributing to the agent's performance.
 
-asynchronousdqn is almost like a3c, asydqn_rm added replay memory, with n-step return will be even faster than a3cl
+you can run ape-x dqn by
 
-My apexdqn has something wrong, it cannot converge well. And the replaymemory is also not good.
+"""
+python apexdqn.py
+"""
