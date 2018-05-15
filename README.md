@@ -7,7 +7,7 @@ You can run ape-x dqn by
 python apexdqn.py
 ```
 
-I use distribution value, for more information in [qrdqn](https://github.com/LihaoR/qr-dqn)
+I use distribution value, for more information in [c51-qr-dqn](https://github.com/LihaoR/c51-qr-dqn)
 
 It will converge in about 2M timesteps
 
