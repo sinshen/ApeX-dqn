@@ -9,6 +9,8 @@ python apexdqn.py
 
 I use distribution value, for more information in [qrdqn](https://github.com/LihaoR/qr-dqn)
 
+It will converge in about 2M timesteps
+
 ## To do
 
 Something wrong in Prioritised Experience Replay, but it doesn't matter the convergence of this algorithm.
