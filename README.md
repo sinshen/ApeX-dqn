@@ -15,6 +15,6 @@ something wrong in Prioritised Experience Replay, but it doesn't matter the conv
 
 Since I can't run it with 360 actors, so I don't know if it can perform so good as the paper said
 
-##paper
+## paper
 
 [Distributed Prioritized Experience Replay](https://arxiv.org/abs/1803.00933)
