@@ -7,7 +7,7 @@ you can run ape-x dqn by
 python apexdqn.py
 ```
 
-I use distribution value, some more information in [qrdqn](https://github.com/LihaoR/qr-dqn)
+I use distribution value, for more information in [qrdqn](https://github.com/LihaoR/qr-dqn)
 
 ## To do
 
