@@ -92,7 +92,6 @@ class AC_Network():
                 
     def train(self,sess,gamma):
         while not coord.should_stop():
-            #tree_idx, batch_memory, ISweights = memory.sample(batch_size)
             episode_buffer, tree_idx, ISWeights = replaymemory.sample(batch_size)
             episode_buffer = np.array(episode_buffer)
             observations      = episode_buffer[:,0]
@@ -141,7 +140,7 @@ class AC_Network():
             ROLLING_EVENT.set()
 
 class Worker():
-    def __init__(self,env,name,s_size,a_size,trainer,model_path,global_episodes):
+    def __init__(self,env,name,s_size,a_size,trainer,model_path,global_episodes,lock):
         self.name = "worker_" + str(name)
         self.number = name        
         self.model_path = model_path
@@ -150,8 +149,8 @@ class Worker():
         self.episode_rewards = []
         self.episode_lengths = []
         self.episode_mean_values = []
+        self.lock = lock
 
-        #Create the local copy of the network and the tensorflow op to copy global paramters to local network
         self.local_AC = AC_Network(sess, s_size, a_size, self.name, None)
         self.update_local_ops = update_target_graph('global', self.name)
         self.env = env
@@ -191,7 +190,11 @@ class Worker():
                     else:
                         s1 = s
 
-                    replaymemory.add([s,a,r,s1,d])
+                    self.lock.acquire()
+                    try:
+                        replaymemory.add([s,a,r,s1,d])
+                    finally:
+                        self.lock.release()
                     episode_reward += r
                     s = s1
                     total_steps += 1
@@ -226,15 +229,13 @@ def get_env(task):
     env = wrap_deepmind(env)
     return env
 
-gamma = .99 # discount rate for advantage estimation and reward discounting
-s_size = 7056 # Observations are greyscale frames of 84 * 84 * 1
+gamma = .99
+s_size = 7056
 load_model = False
 model_path = './last'
 N = 20
 k = 1.
- # Get Atari games.
 benchmark = gym.benchmark_spec('Atari40M')
-# Change the index to select a different game.
 task = benchmark.tasks[3]
 tf.reset_default_graph()
 
@@ -251,7 +252,7 @@ batch_size = 10
 max_memory = 50000
 replaymemory = ReplayMemory(max_memory)
 saver = tf.train.Saver(max_to_keep=5)
-
+lock = threading.Lock()
 
 with tf.Session() as sess:
     UPDATE_EVENT, ROLLING_EVENT = threading.Event(), threading.Event()
@@ -260,12 +261,11 @@ with tf.Session() as sess:
     
     GLOBAL_STEP = 0
     coord = tf.train.Coordinator()
-    #sess.run(tf.global_variables_initializer())
     master_network = AC_Network(sess, s_size,a_size,'global',trainer)  # Generate global network
     workers = []
     for i in range(num_workers):
         env = get_env(task)
-        workers.append(Worker(env,i,s_size,a_size,trainer,model_path,global_episodes))
+        workers.append(Worker(env,i,s_size,a_size,trainer,model_path,global_episodes,lock))
     
     sess.run(tf.global_variables_initializer())
     if load_model == True:
