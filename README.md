@@ -9,7 +9,7 @@ python apexdqn.py
 
 I use distribution value, for more information in [c51-qr-dqn](https://github.com/LihaoR/c51-qr-dqn)
 
-I use ```threading.Lock``` for shared memory, it makes my code slow. But tt will also converge much faster than vanilla async-qr-dqn, a3c...
+And I use ```threading.Lock``` for shared memory, it makes my code slow. But tt will also converge much faster than vanilla async-qr-dqn, a3c...
 
 ## To do
 
