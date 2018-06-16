@@ -13,7 +13,7 @@ And I use ```threading.Lock``` for shared memory, it makes my code slow. But my 
 
 ## To do
 
-Something wrong in Prioritised Experience Replay, but it doesn't matter the convergence of this algorithm.
+Something wrong in Prioritised Experience Replay （shared memory）, but it doesn't matter the convergence of this algorithm.
 
 Since I can't run it with 360 actors, so I don't know if it can perform so good as the paper said
 
